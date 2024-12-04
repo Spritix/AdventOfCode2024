@@ -39,5 +39,3 @@ def day1_part2():
         result = result + int(value)
 
     print(result)
-
-day1_part2()
