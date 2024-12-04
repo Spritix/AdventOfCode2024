@@ -4,7 +4,7 @@ import Parsing_File
 
 list_sorted=[]
 
-list_gauche, list_droite = Parsing_File.parse_file("input.txt")
+list_gauche, list_droite = Parsing_File.parse_file("input_day1.txt")
 
 def day1_part1():
     list_result=[]
