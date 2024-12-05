@@ -1,10 +1,13 @@
-from collections.abc import list_iterator
-
-import Parsing_File
-
 list_sorted=[]
+list_gauche=[]
+list_droite=[]
 
-list_gauche, list_droite = Parsing_File.parse_file("input_day1.txt")
+f = open("input_day1.txt", 'r')
+for x in f:
+    list_gauche.append(x.split("   ")[0])
+    list_droite.append(x.split("   ")[1].removesuffix("\n"))
+list_gauche.sort()
+list_droite.sort()
 
 def day1_part1():
     list_result=[]
@@ -39,3 +42,5 @@ def day1_part2():
         result = result + int(value)
 
     print(result)
+
+day1_part2()
