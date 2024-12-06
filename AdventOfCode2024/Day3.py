@@ -7,12 +7,12 @@ file = f.read()
 res = 0
 unwanted = 0
 
-dontList = re.findall("(?=don[']t[(][)]).*?(?=do[(][)])", file)
+dontList = re.findall("(?=don[']t[(][)]).*?(?=do[(][)])", file, flags=re.DOTALL)
+
 
 for dontString in dontList:
     print(dontString)
     dontValues = (re.findall("mul[(]([0-9]{1,3},[0-9]{1,3})[)]", dontString))
-    print(dontValues)
     for value in dontValues:
         L,R = value.split(",")
         unwanted += int(L) * int(R)
