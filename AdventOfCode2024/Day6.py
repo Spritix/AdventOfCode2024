@@ -60,11 +60,109 @@ def day6_part1(r,c):
                     lines[r] = lines[r][:c+1] + '>' + lines[r][c+2:]
                     c += 1
 
-day6_part1(indexR,indexC)
-ans = 0
-for line in lines:
-    print(line)
-    ans+= line.count('X')
+def day6_part2(r, c):
+    ans = 0
+    memorizeR, memorizeC = r,c
+    for row in range(R):
+        for column in range(C):
+            exitFound = False
+            numberRotation = 0
+            previousChar = '.'
+            copyLines = lines.copy()
+            r,c = memorizeR, memorizeC
+            if copyLines[row][column] == '.':
+                copyLines[row] = copyLines[row][:column] + 'O' + copyLines[row][column + 1:]
+                print(row,column)
+                while not exitFound and numberRotation < 4:
+                    match copyLines[r][c]:
+                        case '^':
+                            if r - 1 < 0:
+                                copyLines[r] = copyLines[r][:c] + '|' + copyLines[r][c + 1:]
+                                exitFound = True
+                            elif copyLines[r - 1][c] == '#' or copyLines[r - 1][c] == 'O':
+                                copyLines[r] = copyLines[r][:c] + '>' + copyLines[r][c + 1:]
+                                if previousChar == '+':
+                                    numberRotation += 1
+                                else :
+                                    numberRotation = 0
+                                    previousChar = '|'
+                            else:
+                                if previousChar == '-' or previousChar =='+':
+                                    copyLines[r] = copyLines[r][:c] + '+' + copyLines[r][c + 1:]
+                                else:
+                                    copyLines[r] = copyLines[r][:c] + '|' + copyLines[r][c + 1:]
+                                previousChar = copyLines[r-1][c]
+                                copyLines[r - 1] = copyLines[r - 1][:c] + '^' + copyLines[r - 1][c + 1:]
+                                r -= 1
+                        case 'v':
+                            if r + 1 >= R:
+                                copyLines[r] = copyLines[r][:c] + '|' + copyLines[r][c + 1:]
+                                exitFound = True
+                            elif copyLines[r + 1][c] == '#' or copyLines[r + 1][c] =='O':
+                                copyLines[r] = copyLines[r][:c] + '<' + copyLines[r][c + 1:]
+                                if previousChar == '+':
+                                    numberRotation += 1
+                                else :
+                                    numberRotation = 0
+                                    previousChar = '|'
+                            else:
+                                if previousChar == '-' or previousChar =='+':
+                                    copyLines[r] = copyLines[r][:c] + '+' + copyLines[r][c + 1:]
+                                else:
+                                    copyLines[r] = copyLines[r][:c] + '|' + copyLines[r][c + 1:]
+                                previousChar = copyLines[r+1][c]
+                                copyLines[r + 1] = copyLines[r + 1][:c] + 'v' + copyLines[r + 1][c + 1:]
+                                r += 1
+                        case '<':
+                            if c - 1 < 0:
+                                copyLines[r] = copyLines[r][:c] + '-' + copyLines[r][c + 1:]
+                                exitFound = True
+                            elif copyLines[r][c - 1] == '#' or copyLines[r][c - 1] =='O':
+                                copyLines[r] = copyLines[r][:c] + '^' + copyLines[r][c + 1:]
+                                if previousChar == '+':
+                                    numberRotation += 1
+                                else :
+                                    numberRotation = 0
+                                    previousChar = '-'
+                            else:
+                                if previousChar == '|' or previousChar =='+':
+                                    copyLines[r] = copyLines[r][:c] + '+' + copyLines[r][c + 1:]
+                                else:
+                                    copyLines[r] = copyLines[r][:c] + '-' + copyLines[r][c + 1:]
+                                previousChar = copyLines[r][c-1]
+                                copyLines[r] = copyLines[r][:c - 1] + '<' + copyLines[r][c:]
+                                c -= 1
+                        case '>':
+                            if c + 1 >= C:
+                                copyLines[r] = copyLines[r][:c] + '-' + copyLines[r][c + 1:]
+                                exitFound = True
+                            elif copyLines[r][c + 1] == '#' or copyLines[r][c + 1] =='O':
+                                copyLines[r] = copyLines[r][:c] + 'v' + copyLines[r][c + 1:]
+                                if previousChar == '+':
+                                    numberRotation += 1
+                                else :
+                                    numberRotation = 0
+                                    previousChar = '-'
+                            else:
+                                if previousChar == '|' or previousChar =='+':
+                                    copyLines[r] = copyLines[r][:c] + '+' + copyLines[r][c + 1:]
+                                else:
+                                    copyLines[r] = copyLines[r][:c] + '-' + copyLines[r][c + 1:]
+                                previousChar = copyLines[r][c+1]
+                                copyLines[r] = copyLines[r][:c + 1] + '>' + copyLines[r][c + 2:]
+                                c += 1
+                if numberRotation >= 4:
+                    ans+=1
+               # for line in copyLines:
+                #    print(copyLines.index(line),line)
+                #print()
+    return ans
 
+#day6_part1(indexR,indexC)
+#ans = 0
+#for line in lines:
+   # print(line)
+    #ans+= line.count('X')
 
-print(ans)
+print(day6_part2(indexR,indexC))
+
